@@ -1,12 +1,23 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/userRegist/regist",
+    "pages/userLogin/login",
+    "pages/list/list",
+    "pages/listFollow/listFollow",
+    "pages/fast/fast",
+    "pages/mine/mine",
+    "pages/searchVideo/searchVideo",
+    "pages/report/report",
+    "pages/videoInfo/videoInfo",
+    "pages/chooseBgm/chooseBgm",
+    "pages/index/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "妙哉短视频",
     "navigationBarTextStyle":"black"
-  }
+  },
+  "debug":true
+
 }
