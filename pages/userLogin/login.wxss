@@ -50,11 +50,19 @@ page{
 
 /*  */
 .loginBtn{
+  background-color:rgb(178, 224, 188);
+  border: 1px solid green; 
+  border-radius: 5px;  
   width: 80%;
   margin-top: 35px;
+  color: green;
 }
 
-.goLoginBtn{
+.goRegistBtn{
+  background-color:rgb(178, 224, 188);
+  border: 1px solid red; 
+  border-radius: 5px;  
   width: 80%;
-  margin-top: 15px;
+  margin-top: 35px;
+  color: red;
 }
