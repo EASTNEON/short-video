@@ -18,6 +18,9 @@ Page({
       })
     } else {
       var serverUrl = app.serverUrl;
+      wx.showLoading({
+        title: '请等待...',
+      })
       wx.request({
         url: serverUrl + '/regist',
         method:"POST",
@@ -30,6 +33,7 @@ Page({
         },
         success:function(res){
           console.log(res.data);
+          wx.hideLoading();
           var status = res.data.status;
           if(status == 200){
             wx.showToast({
@@ -49,5 +53,10 @@ Page({
         
       })
     }
+  },
+  goLoginPage:function(){
+    wx.navigateTo({
+      url: '../userLogin/login',
+    })
   }
 })

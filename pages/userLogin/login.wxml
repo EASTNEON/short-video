@@ -15,7 +15,7 @@
       </view>
       <view class='line'></view>
         <button form-type='submit'  class='loginBtn'>登录</button>
-        <button  class='goRegistBtn' >没有账号？点击注册</button>
+        <button  class='goRegistBtn' bindtap='goRegistPage'>没有账号？点击注册</button>
     </form>
   </view>
 </view>

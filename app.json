@@ -1,11 +1,11 @@
 {
   "pages":[
     "pages/userLogin/login",
+    "pages/mine/mine",
     "pages/userRegist/regist",
     "pages/list/list",
     "pages/listFollow/listFollow",
     "pages/fast/fast",
-    "pages/mine/mine",
     "pages/searchVideo/searchVideo",
     "pages/report/report",
     "pages/videoInfo/videoInfo",

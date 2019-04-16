@@ -15,7 +15,7 @@
       </view>
       <view class='line'></view>
         <button form-type='submit'  class='RegistBtn'>注册</button>
-        <button  class='goLoginBtn' >返回登录</button>
+        <button  class='goLoginBtn' bindtap='goLoginPage'>返回登录</button>
     </form>
   </view>
 </view>

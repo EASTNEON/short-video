@@ -49,6 +49,9 @@ Page({
               });
               app.userInfo = res.data.data;
               //页面跳转
+              wx.navigateTo({
+                url: '../mine/mine',
+              })
             } else if (res.data.status == 500) {
               //失败弹出框
               wx.showToast({
@@ -60,5 +63,10 @@ Page({
           }
         })
     }
+  },
+  goRegistPage:function(){
+    wx.navigateTo({
+      url: '../userRegist/regist',
+    })
   }
 })
