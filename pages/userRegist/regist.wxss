@@ -36,9 +36,10 @@ page{
 
 .inputText{
   float: right;
+  width: 60%;
   text-align: right;
   margin-right: 22px;
-  margin-top: 11px;
+  margin-top:11px;
   font-size: 15px;
 }
 
@@ -49,11 +50,6 @@ page{
   margin-top: 1px;
 }
 
-/*  */
-.loginBtn{
-  width: 40%;
-  margin-top: 35px;
-}
 
 .goLoginBtn{
   background-color:rgb(178, 224, 188);

@@ -11,10 +11,10 @@
       <view class='inputView'>
         <image src='../resource/images/pwd.png' class='keyImage'></image>
         <label class='loginLable'> 密码</label>
-        <input name='password' class='inputText' placeholder='请输入密码'></input>
+        <input name='password' class='inputText' placeholder='请输入密码' password='true'></input>
       </view>
       <view class='line'></view>
-        <button form-type='doRegist' class='RegistBtn'>注册</button>
+        <button form-type='submit' class='RegistBtn'>注册</button>
         <button  class='goLoginBtn'>返回登录</button>
     </form>
   </view>
