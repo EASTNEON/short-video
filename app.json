@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/chooseBgm/chooseBgm",
     "pages/userLogin/login",
     "pages/mine/mine",
     "pages/userRegist/regist",
@@ -9,7 +10,6 @@
     "pages/searchVideo/searchVideo",
     "pages/report/report",
     "pages/videoInfo/videoInfo",
-    "pages/chooseBgm/chooseBgm",
     "pages/index/index"
   ],
   "window":{

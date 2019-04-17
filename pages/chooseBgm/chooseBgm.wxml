@@ -1,2 +1,48 @@
 <!--pages/chooseBgm/chooseBgm.wxml-->
-<text>pages/chooseBgm/chooseBgm.wxml</text>
+<view>
+    <form bindsubmit='upload'>
+
+        <radio-group name="bgmId">
+
+        <block wx:for="{{bgmList}}">
+            <view class='container'>
+          <audio name="{{item.name}}" author="{{item.author}}" src="{{serverUrl}}{{item.path}}" id="myAudio" style='width:300px' controls looop></audio>
+          <radio style='margin-top:20px;' value='{{item.id}}'></radio>
+        </view>
+        </block>
+        
+        
+        <view class='container'>
+          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
+          <radio style='margin-top:20px;' value=''></radio>
+        </view>
+
+        <view class='container'>
+          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
+          <radio style='margin-top:20px;' value=''></radio>
+        </view>
+
+        <view class='container'>
+          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
+          <radio style='margin-top:20px;' value=''></radio>
+        </view>
+
+        <view class='container'>
+          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
+          <radio style='margin-top:20px;' value=''></radio>
+        </view>
+
+        </radio-group>
+
+        <view class="inputView">
+            <label class="loginLabel">视频描述：</label>
+            <input name="desc" class="inputText" placeholder="说点什么吧" />
+        </view>
+        
+      <view class='line'></view>
+        <!-- 提交 -->
+        <button class="submitBtn" form-type='submit'>上传视频</button>
+        
+        <button class="gobackBtn" form-type='reset'>重置</button>
+    </form>
+</view>
