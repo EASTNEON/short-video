@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/index/index",
     "pages/userLogin/login",
     "pages/chooseBgm/chooseBgm",
     "pages/mine/mine",
@@ -9,8 +10,7 @@
     "pages/fast/fast",
     "pages/searchVideo/searchVideo",
     "pages/report/report",
-    "pages/videoInfo/videoInfo",
-    "pages/index/index"
+    "pages/videoInfo/videoInfo"
   ],
   "window":{
     "backgroundTextStyle":"light",
