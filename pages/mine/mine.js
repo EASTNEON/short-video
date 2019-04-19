@@ -134,7 +134,7 @@ Page({
         var duration = res.duration;
         var TemHeight = res.height;
         var TmpWidth = res.width;
-        var tmpVideoUrl = res.tmpVideoUrl;
+        var tmpVideoUrl = res.tempFilePath;
         var tmpCoverUrl = res.thumbTempFilePath;
         
         if(duration > 11){
@@ -150,7 +150,15 @@ Page({
             duration: 2500
           })
         } else {
-          // TODO 打开选择bgm的页面
+          // 打开选择bgm的页面
+          wx.navigateTo({
+            url: '../chooseBgm/chooseBgm?duration=' + duration
+              + "&TemHeight=" + TemHeight
+              + "&TmpWidth=" + TmpWidth
+              + "&tmpVideoUrl=" + tmpVideoUrl
+              + "&tmpCoverUrl=" + tmpCoverUrl
+              ,
+          })
           }
       }
     })

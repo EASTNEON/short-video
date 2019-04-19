@@ -11,26 +11,6 @@
         </view>
         </block>
         
-        
-        <view class='container'>
-          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
-          <radio style='margin-top:20px;' value=''></radio>
-        </view>
-
-        <view class='container'>
-          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
-          <radio style='margin-top:20px;' value=''></radio>
-        </view>
-
-        <view class='container'>
-          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
-          <radio style='margin-top:20px;' value=''></radio>
-        </view>
-
-        <view class='container'>
-          <audio poster='{{poster}}'  name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls looop></audio>
-          <radio style='margin-top:20px;' value=''></radio>
-        </view>
 
         </radio-group>
 
