@@ -37,7 +37,8 @@ page {
     float: right;
     text-align: right;
     margin-right: 22px;
-    margin-top: 11px;
+    margin-top: 11px; 
+    width: 70%;
     font-size: 15px;
 }
 

@@ -1,4 +1,5 @@
 // pages/mine/mine.js
+var videoUtil = require('../../utils/videoUtil.js')
 const app = getApp()
 Page({
 
@@ -11,7 +12,9 @@ Page({
 
   onLoad:function(){
     var me = this;
-    var user = app.userInfo;
+    //var user = app.userInfo;
+    //fixme 修改原来的全局对象为本地缓存
+    var user = app.getGlobalUserInfo();
     var serverUrl = app.serverUrl;
     wx.showLoading({
       title: '请等待...',
@@ -21,7 +24,9 @@ Page({
       url: serverUrl + '/user//query?userId=' + user.id,
       method: 'POST',
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json', // 默认值
+        'userId': user.id,
+        'userToken': user.userToken,
       },
       success: function (res) {
         console.log(res.data);
@@ -39,7 +44,18 @@ Page({
             receiveLikeCounts:userInfo.receiveLikeCounts,
             nickname:userInfo.nickname
           });
-        } 
+        } else if (res.data.status == 502){
+          wx.showToast({
+            title: res.data.msg,
+            duration: 3000,
+            icon: "none",
+            success: function(){
+              wx.redirectTo({
+                url: '../userLogin/login',
+              })
+            }
+          })
+        }
       }
     })
   },
@@ -57,9 +73,11 @@ Page({
         wx.showLoading({
           title: '上传中...',
         })
-        var serverUrl = app.serverUrl; 
+        var serverUrl = app.serverUrl;
+        //fixme 修改原来的全局对象为本地缓存
+        var userInfo = app.getGlobalUserInfo();
         wx.uploadFile({
-          url: serverUrl + '/user/uploadFace?userId=' + app.userInfo.id,
+          url: serverUrl + '/user/uploadFace?userId=' + userInfo.id, //fixme app.userInfo.id
           filePath: tempFilePaths[0],
           name: 'file',
           header:{
@@ -91,7 +109,9 @@ Page({
   },
 
   logout:function(){
-    var user = app.userInfo;
+    // var user = app.userInfo;
+    //fixme 修改原来的全局对象为本地缓存
+    var user = app.getGlobalUserInfo();
     var serverUrl = app.serverUrl;
     wx.showLoading({
       title: '请等待...',
@@ -112,9 +132,11 @@ Page({
             icon: 'success',
             duration: 2000
           }),
-          app.userInfo = null;
+          //app.userInfo = null;
+          //注销以后清空缓存
+          wx.removeStorageSync("userInfo");
           //页面跳转
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../userLogin/login',
           })
         } 
@@ -124,6 +146,7 @@ Page({
   },
 
   uploadVideo:function(){
+    //videoUtil.uploadVideo();
     var me = this;
 
     wx.chooseVideo({
@@ -137,9 +160,9 @@ Page({
         var tmpVideoUrl = res.tempFilePath;
         var tmpCoverUrl = res.thumbTempFilePath;
         
-        if(duration > 11){
+        if(duration > 16){
           wx.showToast({
-            title: '视频长度不能超过10秒...',
+            title: '视频长度不能超过15秒...',
             icon: "none",
             duration: 2500
           })

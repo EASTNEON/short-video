@@ -1,7 +1,9 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
+    "pages/videoInfo/videoInfo",
     "pages/userLogin/login",
+    "pages/videotest/videotest",
     "pages/chooseBgm/chooseBgm",
     "pages/mine/mine",
     "pages/userRegist/regist",
@@ -9,15 +11,14 @@
     "pages/listFollow/listFollow",
     "pages/fast/fast",
     "pages/searchVideo/searchVideo",
-    "pages/report/report",
-    "pages/videoInfo/videoInfo"
+    "pages/report/report"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "妙哉短视频",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
-  "debug":true
-
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

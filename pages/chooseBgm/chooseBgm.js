@@ -22,12 +22,15 @@ Page({
       title: '请等待...',
     });
     var serverUrl = app.serverUrl;
+    var user = app.getGlobalUserInfo();
     //调用后端
     wx.request({
       url: serverUrl + '/bgm/list',
       method: 'POST',
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json', // 默认值
+        'userId': user.id,
+        'userToken': user.userToken,
       },
       success: function (res) {
         console.log(res.data);
@@ -38,6 +41,17 @@ Page({
            bgmList: bgmList,
            serverUrl: serverUrl
          });
+        } else if (res.data.status == 502) {
+          wx.showToast({
+            title: res.data.msg,
+            duration: 2000,
+            icon: "none",
+            success: function () {
+              wx.redirectTo({
+                url: '../userLogin/login',
+              })
+            }
+          });
         }
       }
     })
@@ -49,7 +63,7 @@ Page({
     var bgmId = e.detail.value.bgmId;
     var desc = e.detail.value.desc;
 
-    console.log("bgmId:"+bgmId);
+    console.log("bgmId:" + bgmId);
     console.log("desc:" + desc);
 
     var duration = me.data.videoParams.duration;
@@ -66,11 +80,12 @@ Page({
     })
 
     var serverUrl = app.serverUrl;
-    
+    //fixme 修改原来的全局对象为本地缓存
+    var userInfo = app.getGlobalUserInfo();
     wx.uploadFile({
       url: serverUrl + '/video/upload',
       formData:{
-        userId: app.userInfo.id,
+        userId: userInfo.id, //fixme 原来的 app.userInfo.id
         bgmId: bgmId,
         desc: desc,
         videoSeconds: duration,

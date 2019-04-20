@@ -8,7 +8,8 @@ Page({
     videoList: [],
 
     screenWidth: 350,
-    serverUrl: ""
+    serverUrl: "",
+    searchContent: ""
   },
 
   onLoad:function(params) {
@@ -18,22 +19,34 @@ Page({
     me.setData({
       screenWidth: screenWidth,
     });
-
+    var searchContent = params.search;
+    var isSaveRecord = params.isSaveRecord;
+    if(isSaveRecord == null || isSaveRecord == '' || isSaveRecord == undefined){
+      isSaveRecord = 0;
+    }
+    me.setData({
+      searchContent: searchContent,
+    })
     //获取当前分页数
     var page = me.data.page;
-    me.getAllVideoList(page);
+    me.getAllVideoList(page, isSaveRecord);
   },
   
-  getAllVideoList: function (page){
+  getAllVideoList: function (page, isSaveRecord){
     var me = this;
     var serverUrl = app.serverUrl;
     wx.showLoading({
       title: '请等待，加载中...',
     });
 
+    var searchContent = me.data.searchContent;
+
     wx.request({
-      url: serverUrl + '/video/showAll?page=' + page,
+      url: serverUrl + '/video/showAll?page=' + page + '&isSaveRecord=' + isSaveRecord,
       method: 'POST',
+      data: {
+        videoDesc: searchContent,
+      },
       success: function (res) {
         wx.hideLoading();
         wx.hideNavigationBarLoading();
@@ -62,7 +75,7 @@ Page({
   },
   onPullDownRefresh:function(){
     wx.showNavigationBarLoading();
-    this.getAllVideoList(1);
+    this.getAllVideoList(1, 0);
   },
   onReachBottom:function(){
     var me = this;
@@ -79,6 +92,17 @@ Page({
     }
     
     var page = currentPage + 1;
-    me.getAllVideoList(page);
+    me.getAllVideoList(page, 0);
+  },
+
+  showVideoInfo: function (e){
+    var me  = this;
+    var videoList = me.data.videoList;
+    var arrindex = e.target.dataset.arrindex;
+    var videoInfo =  JSON.stringify(videoList[arrindex]);
+    
+    wx.redirectTo({
+      url: '../videoInfo/videoInfo?videoInfo=' + videoInfo
+    })
   }
 })

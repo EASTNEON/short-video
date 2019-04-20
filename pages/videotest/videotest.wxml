@@ -1,0 +1,5 @@
+<!--pages/videotest/videotest.wxml-->
+<video src="http://172.20.10.9:8081/19041674Y65HFZ7C/video/61607077-5cea-4762-be47-f74deec2bce9.mp4"
+muted='{{false}}'initial-time='1' duration='8' controls='{{true}}' danmu-list='{{danmuList}}' enable-danmu='{{true}}' danmu-btn='true' autoplay='{{false}}' loop='{{false}}' page-gesture='true'
+direction='-90' show-progress='{{true}}' show-fullscreen-btn='{{true}}' show-play-btn='{{true}}' show-center-play-btn='{{true}}' enable-progress-gesture='{{true}}' poster='http://172.20.10.9:8081/19041674Y65HFZ7C/face/wx78a55be8daff2755.o6zAJs3FKqaPwh2VhE0sF0XCsqyI.Od2XetdfZtBQbba6ba568492e366cda762fddfb5a201.jpg'
+bindpause='bindpause' bindplay='bindplay'></video>
