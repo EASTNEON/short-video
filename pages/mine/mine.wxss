@@ -1,6 +1,7 @@
 /* pages/mine/mine.wxss */
 page {
     font-size: 14px;
+    height: 100%;
 }
 
 .container {
@@ -64,7 +65,7 @@ page {
 }
 
 .video-info-selected {
-    background-color: gainsboro;
+    background-color: rgb(178, 224, 188);
 }
 
 .container-video-list {

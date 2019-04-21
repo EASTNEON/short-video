@@ -86,7 +86,7 @@ Page({
     }
   },
   goRegistPage: function() {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../userRegist/regist',
     })
   }

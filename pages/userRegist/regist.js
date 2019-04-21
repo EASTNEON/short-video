@@ -44,6 +44,10 @@ Page({
             //app.userInfo = res.data.data;
             //fixme 修改原有的全局对象为本地缓存
             app.setGlobalUserInfo(res.data.data);
+            // 页面跳转
+            wx.redirectTo({
+              url: '../mine/mine',
+            })
           } else if(status == 500){
             wx.showToast({
               title: res.data.msg,
@@ -57,7 +61,7 @@ Page({
     }
   },
   goLoginPage:function(){
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../userLogin/login',
     })
   }

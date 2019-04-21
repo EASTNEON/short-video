@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/report/report",
     "pages/videoInfo/videoInfo",
     "pages/userLogin/login",
     "pages/videotest/videotest",
@@ -10,8 +11,7 @@
     "pages/list/list",
     "pages/listFollow/listFollow",
     "pages/fast/fast",
-    "pages/searchVideo/searchVideo",
-    "pages/report/report"
+    "pages/searchVideo/searchVideo"
   ],
   "window": {
     "backgroundTextStyle": "light",

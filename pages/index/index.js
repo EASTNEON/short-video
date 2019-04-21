@@ -9,7 +9,7 @@ Page({
 
     screenWidth: 350,
     serverUrl: "",
-    searchContent: ""
+    searchContent: "",
   },
 
   onLoad:function(params) {
@@ -20,6 +20,7 @@ Page({
       screenWidth: screenWidth,
     });
     var searchContent = params.search;
+    console.log(searchContent);
     var isSaveRecord = params.isSaveRecord;
     if(isSaveRecord == null || isSaveRecord == '' || isSaveRecord == undefined){
       isSaveRecord = 0;
@@ -100,7 +101,7 @@ Page({
     var videoList = me.data.videoList;
     var arrindex = e.target.dataset.arrindex;
     var videoInfo =  JSON.stringify(videoList[arrindex]);
-    
+    //debugger;
     wx.redirectTo({
       url: '../videoInfo/videoInfo?videoInfo=' + videoInfo
     })

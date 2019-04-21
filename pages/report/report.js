@@ -1,66 +1,79 @@
-// pages/report/report.js
+const app = getApp()
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    reasonType: "请选择原因",
+    reportReasonArray: app.reportReasonArray,
+    publishUserId: "",
+    videoId: ""
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad: function(params){
+    var me = this;
 
+    var videoId = params.videoId;
+    var publishUserId = params.publishUserId;
+
+    me.setData({
+      publishUserId: publishUserId,
+      videoId: videoId,
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  changeMe:function(e){
+    var me = this;
 
+    var index = e.detail.value;
+    var reasonType = app.reportReasonArray[index];
+
+    me.setData({
+      reasonType: reasonType
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+  submitReport:function(e){
+    var me = this;
+    var reasonIndex = e.detail.value.reasonIndex;
+    var reasonContent = e.detail.value.reasonContent;
 
-  },
+    var user = app.getGlobalUserInfo();
+    var curentUserId = user.id;
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+    if(reasonIndex == null || reasonIndex == '' || reasonIndex == undefined){
+      wx.showToast({
+        title: '请选择举报理由',
+        icon: "none"
+      })
+      return;
+    }
+    var serverUrl = app.serverUrl;
+    wx.request({
+      url: serverUrl + '/user/reportUser',
+      method: 'POST',
+      data:{
+        dealUserId:me.data.publishUserId,
+        dealVideoId: me.data.videoId,
+        title: app.reportReasonArray[reasonIndex],
+        content:reasonContent,
+        userid:curentUserId
+      },
+      header: {
+        'content-type': 'application/json', // 默认值
+        'userId': user.id,
+        'userToken': user.userToken
+      },
+      success:function(res){
+        wx.showToast({
+          title: res.data.msg,
+          duration:2000,
+          icon:"none",
+          success:function(){
+            wx.navigateBack();
+          }
+        })
+      }
 
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    })
+    //debugger;
   }
 })

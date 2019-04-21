@@ -36,7 +36,32 @@ Page({
       src: app.serverUrl + videoInfo.videoPath,
       videoId: videoInfo.id,
       cover: cover
+    });
+
+    var serverUrl = app.serverUrl;
+    var user = app.getGlobalUserInfo();
+    var loginUserId = "";
+    if (user != null && user != undefined && user != '') {
+      loginUserId = user.id;
+    }
+    //debugger;
+    wx.request({
+      url: serverUrl + '/user/queryPublisher?loginUserId=' + loginUserId + '&videoId=' + videoInfo.id + '&publishUserId=' + videoInfo.userId,
+      method: 'POST',
+      success: function(res) {
+        console.log(res.data);
+
+        var publisher = res.data.data.publisher;
+        var userLikeVideo = res.data.data.userLikeVideo;
+        console.log(userLikeVideo);
+        me.setData({
+          serverUrl: serverUrl,
+          publisher: publisher,
+          userLikeVideo: userLikeVideo
+        });
+      }
     })
+
 
   },
 
@@ -54,6 +79,24 @@ Page({
     wx.navigateTo({
       url: '../searchVideo/searchVideo',
     })
+  },
+
+  showPublisher: function() {
+    var me = this;
+    var user = app.getGlobalUserInfo();
+    var videoInfo = me.data.videoInfo;
+    var realUrl = '../mine/mine#publisherId@' + videoInfo.userId;
+    //debugger;
+    if (user == null || user == undefined || user == '') {
+      wx.navigateTo({
+        url: '../userLogin/login?redirectUrl=' + realUrl,
+      })
+    } else {
+      wx.navigateTo({
+        url: '../mine/mine?publisherId=' + videoInfo.userId,
+      })
+    }
+
   },
 
   upload: function() {
@@ -105,11 +148,12 @@ Page({
       })
     } else {
       var userLikeVideo = me.data.userLikeVideo;
-      var url = '/video/userLike?userId=' + user.id + '&videoId=' + videoInfo.id + '&videoCreaterId=' + videoInfo.userId; 
-      if(userLikeVideo){
-        url = '/video/userUnLike?userId=' + user.id + '&videoId=' + videoInfo.id + '&videoCreaterId=' + videoInfo.userId; 
+      var url = '/video/userLike?userId=' + user.id + '&videoId=' + videoInfo.id + '&videoCreaterId=' + videoInfo.userId;
+      if (userLikeVideo) {
+        url = '/video/userUnLike?userId=' + user.id + '&videoId=' + videoInfo.id + '&videoCreaterId=' + videoInfo.userId;
       }
       console.log(videoInfo.id);
+      console.log(user.id);
       var serverUrl = app.serverUrl;
       wx.showLoading({
         title: '...',
@@ -122,15 +166,82 @@ Page({
           'userId': user.id,
           'userToken': user.userToken,
         },
-        success: function(res){
+        success: function(res) {
           wx.hideLoading();
           me.setData({
             userLikeVideo: !userLikeVideo
-          })
+          });
+          console.log(me.data.userLikeVideo);
         }
       })
     }
 
 
-  }
+  },
+
+  shareMe: function() {
+    var me = this;
+    var user = app.getGlobalUserInfo();
+    wx.showActionSheet({
+      itemList: ['下载到本地', '举报用户', '分享到朋友圈', '分享到QQ空间', '分享到微博'],
+      success: function(res) {
+        console.log(res.tapIndex);
+        if (res.tapIndex == 0) {
+          //下载
+          wx.showLoading({
+            title: '下载中...',
+          })
+          wx.downloadFile({
+            url: app.serverUrl + me.data.videoInfo.videoPath,
+            success: function(res) {
+              // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+              if (res.statusCode === 200) {
+                console.log(res.tempFilePath);
+
+                wx.saveVideoToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success: function(res) {
+                    console.log(res.errMsg)
+                    wx.hideLoading();
+                  }
+                })
+              }
+            }
+          })
+        } else if (res.tapIndex == 1) {
+          //举报
+          var videoInfo = JSON.stringify(me.data.videoInfo);
+          var realUrl = '../videoinfo/videoinfo#videoInfo@' + videoInfo;
+
+          if (user == null || user == undefined || user == '') {
+            wx.navigateTo({
+              url: '../userLogin/login?redirectUrl=' + realUrl,
+            })
+          } else {
+            var publishUserId = me.data.videoInfo.userId;
+            var videoId = me.data.videoInfo.id;
+            var currentUserId = user.id;
+            wx.navigateTo({
+              url: '../report/report?videoId=' + videoId + "&publishUserId=" + publishUserId
+            })
+          }
+        } else {
+          wx.showToast({
+            title: '官方暂未开放...'
+          })
+        }
+      }
+    })
+  },
+
+  onShareAppMessage: function(res) {
+
+    var me = this;
+    var videoInfo = me.data.videoInfo;
+
+    return {
+      title: '短视频内容分享',
+      path: "pages/videoInfo/videoInfo?videoInfo=" + JSON.stringify(videoInfo)
+    }
+  },
 })
