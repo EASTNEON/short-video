@@ -11,7 +11,12 @@ Page({
     src: "",
     videoInfo: {},
 
-    userLikeVideo: false
+    commentsPage: 1,
+    commentsTotalPage: 1,
+    commentsList: [],
+
+    userLikeVideo: false,
+    placeholder: "说点什么..."
   },
 
   videoCtx: {},
@@ -61,7 +66,7 @@ Page({
         });
       }
     })
-
+    me.getCommentsList(1);
 
   },
 
@@ -238,10 +243,114 @@ Page({
 
     var me = this;
     var videoInfo = me.data.videoInfo;
+    var user = app.getGlobalUserInfo();
 
     return {
       title: '短视频内容分享',
       path: "pages/videoInfo/videoInfo?videoInfo=" + JSON.stringify(videoInfo)
     }
   },
+
+  leaveComment: function() {
+    this.setData({
+      commentFocus: true
+    })
+  },
+
+  replyFocus: function(e) {
+    var fatherCommentId = e.currentTarget.dataset.fathercommentid;
+    var toUserId = e.currentTarget.dataset.touserid;
+    var toNickname = e.currentTarget.dataset.tonickname;
+
+    this.setData({
+      placeholder: '回复' + toNickname,
+      replyToUserId: toUserId,
+      replyFatherCommentId: fatherCommentId,
+      commentFocus: true
+    })
+  },
+
+  saveComment: function(e) {
+    var me = this;
+    var content = e.detail.value;
+
+
+    //获取评论回复的fatherCommentId和toUserId
+    var fatherCommentId = e.currentTarget.dataset.replyfathercommentid;
+    var toUserId = e.currentTarget.dataset.replytouserid;
+
+    var user = app.getGlobalUserInfo();
+
+    var videoInfo = JSON.stringify(me.data.videoInfo);
+    var realUrl = '../videoinfo/videoinfo#videoInfo@' + videoInfo;
+
+    if (user == null || user == undefined || user == '') {
+      wx.navigateTo({
+        url: '../userLogin/login?redirectUrl=' + realUrl,
+      })
+    } else {
+      wx.showLoading({
+        title: '请稍后...',
+      })
+      wx.request({
+        url: app.serverUrl + '/video/saveComment?fatherCommentId=' + fatherCommentId + '&toUserId=' + toUserId,
+        method: 'POST',
+        header: {
+          'content-type': 'application/json', // 默认值
+          'userId': user.id,
+          'userToken': user.userToken,
+        },
+        data: {
+          videoId: me.data.videoInfo.id,
+          fromUserId: user.id,
+          comment: content,
+        },
+        success: function(res) {
+          console.log(res.data);
+          wx.hideLoading();
+
+          me.setData({
+            contentValue: '',
+            commentsList: []
+          });
+
+          me.getCommentsList(1);
+        }
+      })
+    }
+  },
+
+  getCommentsList: function(page) {
+    var me = this;
+    var videoId = me.data.videoInfo.id;
+
+    wx.request({
+      url: app.serverUrl + '/video/getVideoComments?videoId=' + videoId + '&page=' + page + '&pageSize=5',
+      method: 'POST',
+      success: function(res) {
+        console.log(res.data);
+
+        var commentsList = res.data.data.rows;
+        var newCommentsList = me.data.commentsList;
+
+        me.setData({
+          commentsList: newCommentsList.concat(commentsList),
+          commentsPage: page,
+          commentsTotalPage: res.data.data.total,
+        });
+      }
+    })
+    //debugger;
+  },
+
+  onReachBottom: function() {
+    var me = this;
+    var currentPage = me.data.commentsPage;
+    var totalPage = me.data.commentsTotalPage;
+    if (currentPage == totalPage) {
+      return;
+    }
+    var page = currentPage + 1;
+    me.getCommentsList(page);
+  }
 })

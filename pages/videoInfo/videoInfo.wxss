@@ -99,10 +99,11 @@ page {
 
 .comments-all {
     /* margin-top: 10px; */
-      margin-bottom: 10px;  
+      /* margin-bottom: 10px;   */
       /* border-bottom: solid 1px gray;   */
     background-color: #141414;
     color: #e8e8e8;
+    font-size: 18px
 }
 
 .face-comments {

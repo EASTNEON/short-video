@@ -472,7 +472,7 @@ Page({
 
   },
   // 到底部后触发加载
-  onReachBottom: function () {
+  onReachBottom:function(){
     console.log("onReachBottomonReachBottomonReachBottom!!!");
     var myWorkFlag = this.data.myWorkFlag;
     var myLikesFlag = this.data.myLikesFlag;
@@ -480,7 +480,7 @@ Page({
     if (!myWorkFlag) {
       var currentPage = this.data.myVideoPage;
       var totalPage = this.data.myVideoTotal;
-      
+
       // 获取总页数进行判断，如果当前页数和总页数相等，则不分页
       if (currentPage === totalPage) {
         wx.showToast({
@@ -518,7 +518,6 @@ Page({
       var page = currentPage + 1;
       this.getMyFollowList(page);
     }
-
   }
 
   
